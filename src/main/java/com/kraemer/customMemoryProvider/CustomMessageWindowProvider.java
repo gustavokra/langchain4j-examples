@@ -1,26 +1,29 @@
-package com.kraemer;
+package com.kraemer.customMemoryProvider;
 
 import java.util.function.Supplier;
 
 import dev.langchain4j.memory.ChatMemory;
 import dev.langchain4j.memory.chat.ChatMemoryProvider;
-import dev.langchain4j.memory.chat.TokenWindowChatMemory;
+import dev.langchain4j.memory.chat.MessageWindowChatMemory;
 import dev.langchain4j.store.memory.chat.InMemoryChatMemoryStore;
 
-public class CustomMessageTokenProvider implements Supplier<ChatMemoryProvider> {
+public class CustomMessageWindowProvider implements Supplier<ChatMemoryProvider> {
+    
     private final InMemoryChatMemoryStore store = new InMemoryChatMemoryStore();
 
     @Override
-    public CustomChatMemoryProvider get() {
-        return new CustomChatMemoryProvider() {
+    public ChatMemoryProvider get() {
+        return new ChatMemoryProvider() {
+
             @Override
             public ChatMemory get(Object memoryId) {
-                return TokenWindowChatMemory.builder()
-                        .maxTokens(20, new CustomTokenizer())
+                return MessageWindowChatMemory.builder()
+                        .maxMessages(5)
                         .id(memoryId)
                         .chatMemoryStore(store)
                         .build();
             }
         };
     }
+
 }

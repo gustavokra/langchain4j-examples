@@ -1,4 +1,4 @@
-package com.kraemer;
+package com.kraemer.customMemoryProvider;
 
 import dev.langchain4j.agent.tool.ToolExecutionRequest;
 import dev.langchain4j.agent.tool.ToolSpecification;

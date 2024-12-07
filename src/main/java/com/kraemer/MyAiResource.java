@@ -10,10 +10,10 @@ import jakarta.ws.rs.core.Response;
 
 @Path("api/v1/langchain4j-starter/")
 public class MyAiResource {
-    
+
     @Inject
     private MyAiPoetService aiPoetservice;
-    
+
     @Inject
     private MyAiTriagedReview aiTriageService;
 
@@ -32,7 +32,7 @@ public class MyAiResource {
     @Produces(MediaType.APPLICATION_JSON)
     public Response triage(@HeaderParam("review") String review) {
         return Response.ok(aiTriageService.triage(review)).build();
-    } 
+    }
 
     @GET
     @Path("chat")
