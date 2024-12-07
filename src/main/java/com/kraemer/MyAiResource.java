@@ -37,8 +37,8 @@ public class MyAiResource {
     @GET
     @Path("chat")
     @Produces(MediaType.APPLICATION_JSON)
-    public Response chat(@HeaderParam("message") String message) {
-        return Response.ok(aiChatService.chat(message)).build();
+    public Response chat(@HeaderParam("memoryId") int memoryId, @HeaderParam("message") String message) {
+        return Response.ok(aiChatService.chat(memoryId, message)).build();
     }
 
 }
