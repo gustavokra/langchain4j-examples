@@ -1,58 +1,62 @@
-# langchain4j-starter
+# langchain4j-examples
 
-This project uses Quarkus, the Supersonic Subatomic Java Framework.
+O objetivo desse repositório é o estudo do framework LangChain4j, colocando em prática suas principais funcionalidades com Quarkus.
 
-If you want to learn more about Quarkus, please visit its website: <https://quarkus.io/>.
+## LangChain4j
+É uma biblioteca cuso objetivo é simplificar a integração de LLMs em aplicativos Java.
+Ele unifica as funcionalidades das APIS dos provedores de LLM, tirando a necessidade de reescrever código para cada um deles.
 
-## Running the application in dev mode
+A biblioteca começou seu desenvolvimento no início de 2023. O LangChain4j é uma fusão de ideias e conceitos do LangChain, Haystack, LlamaIndex e da comunidade em geral.
 
-You can run your application in dev mode that enables live coding using:
+### Níveis de abstração
+1. **Nível Baixo:** Oferece acesso direto a componentes como `ChatLanguageModel`, `UserMessage`, `AiMessage`, e `EmbeddingStore`. Ideal para controle total e personalização profunda, mas exige mais código e esforço.
+2. **Nível Alto:** Fornece APIs de alto nível, como `AI Services`, que abstraem a complexidade e facilitam o uso. Permite ajustes declarativos com menos esforço.
 
-```shell script
-./mvnw quarkus:dev
+![LangChain4j components](langchain4j-components.png)
+### Estrutura da biblioteca
+Apresenta um desing modular, compreendendo os módulos:
+ - langchain4j-core: define as abstrações principais (como `ChatLanguageModel`e `EmbeddingStore`) e suas APIs.
+ - módulo principal langchain4j, contendo ferramentas úteis como carregamento de documentos, implementações de chat memory e características de alto nível como [AI Services].
+ - Uma vasta lista de módulos de integrações com LLMS (langchain4j-{integration})
+
+### Casos de uso
+- Criar chatbots que acessam seus dados e se comportam como você definir
+	- Customer support chatbot
+	- Educational assistant
+- Processar muitos dados desestruturados e extrair informação estruturada dos mesmos
+- Gerar informação 
+	- Emails
+	- Blog posts
+- Sumarizar, reescrever, traduzir informação.
+
+Entre muitos outros!
+
+## Quarkus LangChain4j
+
+A extensão LangChain4j do quarkus oferece uma maneira declarativa para interagir com diversas *LLMs*. Isso facilita funções invocadas por *LLMs* com aplicações Quarkus e permite carregamento de documentos com o *LLM context*.
+
+![Imagem da estrutura do quarkus com LangChain4j](quarkus-llms-big-picture.png)
+
+### Configurando 
+Para incomporar a extensão ao projeto Quarkus, adicione a depêndencia:
+
+```
+<dependency>
+    <groupId>io.quarkiverse.langchain4j</groupId>
+    <artifactId>quarkus-langchain4j-openai</artifactId>
+    <version>0.22.0</version>
+</dependency>
 ```
 
-> **_NOTE:_**  Quarkus now ships with a Dev UI, which is available in dev mode only at <http://localhost:8080/q/dev/>.
+E inclua sua API Key do LLM escolhido no arquivo application.properties:
 
-## Packaging and running the application
-
-The application can be packaged using:
-
-```shell script
-./mvnw package
+```
+quarkus.langchain4j.openai.api-key=sk-...
 ```
 
-It produces the `quarkus-run.jar` file in the `target/quarkus-app/` directory.
-Be aware that it’s not an _über-jar_ as the dependencies are copied into the `target/quarkus-app/lib/` directory.
 
-The application is now runnable using `java -jar target/quarkus-app/quarkus-run.jar`.
+## Referências: 
 
-If you want to build an _über-jar_, execute the following command:
+[Documentação LangChain4j](https://docs.langchain4j.dev/intro)
 
-```shell script
-./mvnw package -Dquarkus.package.jar.type=uber-jar
-```
-
-The application, packaged as an _über-jar_, is now runnable using `java -jar target/*-runner.jar`.
-
-## Creating a native executable
-
-You can create a native executable using:
-
-```shell script
-./mvnw package -Dnative
-```
-
-Or, if you don't have GraalVM installed, you can run the native executable build in a container using:
-
-```shell script
-./mvnw package -Dnative -Dquarkus.native.container-build=true
-```
-
-You can then execute your native executable with: `./target/langchain4j-starter-1.0.0-SNAPSHOT-runner`
-
-If you want to learn more about building native executables, please consult <https://quarkus.io/guides/maven-tooling>.
-
-## Related Guides
-
-- LangChain4j OpenAI ([guide](https://docs.quarkiverse.io/quarkus-langchain4j/dev/index.html)): Provides the basic integration with LangChain4j
+[Documentação Quarkiverse da extensão LangChain4j](https://docs.quarkiverse.io/quarkus-langchain4j/dev/index.html)
