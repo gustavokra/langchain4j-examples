@@ -2,6 +2,8 @@
 
 O objetivo desse repositório é o estudo do framework LangChain4j, colocando em prática suas principais funcionalidades com Quarkus.
 
+O projeto contém a própria biblioteca LangChain4j do Quarkus, assim como o quarkus-rest-jsonb, quarkus-hibernate-orm-panache, quarkus-jdbc-postgresql e quarkus-smallrye-openapi para documentação Swagger que pode ser acessada em http://localhost:8080/q/swagger-ui/.
+
 ## LangChain4j
 É uma biblioteca cujo objetivo é simplificar a integração de LLMs em aplicativos Java.
 Ele unifica as funcionalidades das APIS dos provedores de LLM, tirando a necessidade de reescrever código para cada um deles.
@@ -16,7 +18,7 @@ A biblioteca começou seu desenvolvimento no início de 2023. O LangChain4j é u
 ### Estrutura da biblioteca
 Apresenta um desing modular, compreendendo os módulos:
  - langchain4j-core: define as abstrações principais (como `ChatLanguageModel`e `EmbeddingStore`) e suas APIs.
- - módulo principal langchain4j, contendo ferramentas úteis como carregamento de documentos, implementações de chat memory e características de alto nível como [AI Services].
+ - módulo principal langchain4j, contendo ferramentas úteis como carregamento de documentos, implementações de chat memory e características de alto nível como AI Services.
  - Uma vasta lista de módulos de integrações com LLMS (langchain4j-{integration})
 
 ### Casos de uso
