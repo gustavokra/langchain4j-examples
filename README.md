@@ -3,7 +3,7 @@
 O objetivo desse repositório é o estudo do framework LangChain4j, colocando em prática suas principais funcionalidades com Quarkus.
 
 ## LangChain4j
-É uma biblioteca cuso objetivo é simplificar a integração de LLMs em aplicativos Java.
+É uma biblioteca cujo objetivo é simplificar a integração de LLMs em aplicativos Java.
 Ele unifica as funcionalidades das APIS dos provedores de LLM, tirando a necessidade de reescrever código para cada um deles.
 
 A biblioteca começou seu desenvolvimento no início de 2023. O LangChain4j é uma fusão de ideias e conceitos do LangChain, Haystack, LlamaIndex e da comunidade em geral.
