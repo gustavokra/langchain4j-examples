@@ -1,6 +1,5 @@
 package com.kraemer;
 
-import com.kraemer.customMemoryProvider.CustomMessageWindowProvider;
 import com.kraemer.repositories.CustomerRepository;
 
 import dev.langchain4j.service.MemoryId;
@@ -9,8 +8,7 @@ import io.quarkiverse.langchain4j.RegisterAiService;
 import io.quarkiverse.langchain4j.ToolBox;
 
 // tools = { CustomerRepository.class },
-@RegisterAiService(modelName = "m1", 
-        chatMemoryProviderSupplier = CustomMessageWindowProvider.class)
+@RegisterAiService
 public interface MyAiChatService {
 
     @ToolBox(value = { CustomerRepository.class })
