@@ -56,6 +56,11 @@ E inclua sua API Key do LLM escolhido no arquivo application.properties:
 quarkus.langchain4j.openai.api-key=sk-...
 ```
 
+Ou use adicione a variável de ambiente QUARKUS_LANGCHAIN4J_OPENAI_API_KEY
+Para ver as repostas ou requests do LLM no console, adicione 
+```
+quarkus.langchain4j.log-responses=true
+```
 
 ## Referências: 
 
