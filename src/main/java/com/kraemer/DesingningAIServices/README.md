@@ -21,7 +21,7 @@ Uma vez registreada, injete o AI Service na applicação:
 ### Importante
 Os Beans criados por ```@RegisterAiService``` são ```@RequestScoped``` por padrão, permitindo remover objetos de configuração de contexto (memória) para chats. Isso pode ser inapropriado para CLIs ou WebSockets. Quando usar um serviço em um CLI, faz sentido que o serviço estja sob @ApplicationScoped, para isso basta anotar ```@ApplicationScoped```.
 
-## Declaraão de método IA
+## Declaração de método IA
 Com a interface anotada com @RegisterAiService, você modela interações com a LLM com métodos. Esses métodos aceitam parâmetros e são anotados com ```@SystemMessage``` e ```@UserMessage``` para definir instruções diretas à LLM:
 ```
 @SystemMessage("You are a professional poet.")
@@ -116,3 +116,23 @@ quarkus.langchain4j.m2.chat-model.provider=huggingface
 quarkus.langchain4j.openai.m1.api-key=sk-...
 quarkus.langchain4j.huggingface.m2.api-key=sk-...
 ```
+
+## Configurando o Context(Memória)
+Como as LLMS não tem estado, a memória tem que ser trocada cada vez. Para previnir mensagens excessivas, é crucial evitar mensagens antigas.
+
+O atributo ```chatMemoryProviderSupplier``` da anotação ```@RegisterAiService``` permite configurar o ```dev.langchain4j.memory.chat.ChatMemoryProvider```.
+O valor padrão dessa anotação é ```RegisterAiService.BeanChatMemoryProviderSupplier.class```, o que significa que o AiService vai usar qualquer ChatMemoryProvider configurado pela aplicação ou o padrão provido pela extensão.
+
+A implementação padrão do ```ChatMemoryProvider``` faz duas coisas:
+- Usa qualquer bean ```dev.langchain4j.store.memory.chat.ChatMemoryStore```  que é configurado, como armazenamento de apoio.
+    - Se a aplicação provê seu próprio bean ```ChatMemoryStore```, ele será usado ao invez do InMemoryChatMemoryStore padrão.
+- Aproveita a configuração disponível em ```quarkus.langchain4j.chat-memory``` para construir o ```ChatMemoryProvider```.
+    - Os valores padrões de configuração resultam no uso de ```dev.langchain4j.memory.chat.MessageWindowChatMemory``` com um tamanho de janela de 10.
+    - Setando ```quarkus.langchain4j.chat-memory.type=token-window```, um ```dev.langchain4j.memory.chat.TokenWindowChatMemor``` será usado. Isso requer a utilização do Bean Tokenizer.
+### Importante
+A extensão automaticamente remove objetos ```ChatMemory``` de seu respectivo ```ChatMemoryStore``` quando a AI está fora de escopo (```@RequestScoped``` é o padrão).
+Em caso de beans declarados como ```@Singleton``` ou ```@ApplicationScoped``` o ```io.quarkiverse.langchain4j.ChatMemoryRemover``` deve ser usado para remover elementos manualmente.
+
+Se seu caso de uso não requer memória, deve-se usar ```@RegisterAiService(chatMemoryProviderSupplier = RegisterAiService.NoChatMemoryProviderSupplier.class```.
+
+Um Ai service pode ter sua memória implantanda usando ```@SeedMemory```. 
