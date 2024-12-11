@@ -8,7 +8,7 @@ O projeto contém a própria biblioteca LangChain4j do Quarkus, assim como o qua
 Cada pasta contém um documendo README que explica um tópico, baseado na documetação do Quarkus.
 Comece por 
 1. "MyAiService"
-2. "AI Services"
+2. "Designing AI Services"
 3. "Agents and Tools"
 4. "Embeddings and Document Retrivers"
 

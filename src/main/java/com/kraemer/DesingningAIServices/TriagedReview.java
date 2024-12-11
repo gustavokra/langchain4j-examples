@@ -1,4 +1,4 @@
-package com.kraemer;
+package com.kraemer.DesingningAIServices;
 
 public class TriagedReview {
     

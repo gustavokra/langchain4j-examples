@@ -1,11 +1,15 @@
-package com.kraemer;
+package com.kraemer.DesingningAIServices;
 
+import dev.langchain4j.service.SystemMessage;
 import dev.langchain4j.service.UserMessage;
 import io.quarkiverse.langchain4j.RegisterAiService;
 
 @RegisterAiService
-public interface MyAiTriagedReview {
+public interface AiTriagedReviewService {
 
+    @SystemMessage("""
+            You are working for a bank, processing reviews about financial products. Triage reviews into positive and negative ones, responding with a JSON document.
+            """)
     @UserMessage("""
                 Your task is to process the review delimited by ---.
                 Apply a sentiment analysis to the review to determine if it is positive or negative, considering various languages.

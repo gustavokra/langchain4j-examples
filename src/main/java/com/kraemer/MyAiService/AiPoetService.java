@@ -8,7 +8,7 @@ import jakarta.enterprise.context.ApplicationScoped;
 
 @ApplicationScoped
 @RegisterAiService(tools = { EmailService.class })
-public interface MyAiService {
+public interface AiPoetService {
 
     @SystemMessage("Você é um poeta profissional")
     @UserMessage("""
