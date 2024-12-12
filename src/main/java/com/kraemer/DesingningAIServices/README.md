@@ -136,3 +136,85 @@ Em caso de beans declarados como ```@Singleton``` ou ```@ApplicationScoped``` o 
 Se seu caso de uso não requer memória, deve-se usar ```@RegisterAiService(chatMemoryProviderSupplier = RegisterAiService.NoChatMemoryProviderSupplier.class```.
 
 Um Ai service pode ter sua memória implantanda usando ```@SeedMemory```. 
+
+### Uso avançado
+```ChatMemoryProvider``` é bastante configuravel, apesar de sua configuração ser desnecessaria em muitos casos. Aqui tem um exemplo possível:
+```
+package io.quarkiverse.langchain4j.samples;
+
+import jakarta.inject.Singleton;
+
+import dev.langchain4j.memory.ChatMemory;
+import dev.langchain4j.memory.chat.ChatMemoryProvider;
+import dev.langchain4j.store.memory.chat.ChatMemoryStore;
+
+@Singleton
+public class CustomChatMemoryProvider implements ChatMemoryProvider {
+
+    private final ChatMemoryStore store;
+
+    public CustomChatMemoryProvider() {
+        this.store = createCustomStore();
+    }
+
+    private static ChatMemoryStore createCustomStore() {
+        // TODO: provide some kind of custom store
+        return null;
+    }
+
+    @Override
+    public ChatMemory get(Object memoryId) {
+        return createCustomMemory(memoryId);
+    }
+
+    private static ChatMemory createCustomMemory(Object memoryId) {
+        // TODO: implement using memoryId and store
+        return null;
+    }
+}
+```
+
+Se por algum motivo diferentes IA Services precisam de um ChatMemoryProvider diferente, isso é possível configurando o atributo chatMemoryProviderSupplier da anotação @RegisterAiService e implementando como um custom provider.
+Exemplo:
+
+```
+package io.quarkiverse.langchain4j.samples;
+
+import java.util.function.Supplier;
+
+import dev.langchain4j.memory.ChatMemory;
+import dev.langchain4j.memory.chat.ChatMemoryProvider;
+import dev.langchain4j.memory.chat.MessageWindowChatMemory;
+import dev.langchain4j.store.memory.chat.InMemoryChatMemoryStore;
+
+public class CustomProvider implements Supplier<ChatMemoryProvider> {
+
+    private final InMemoryChatMemoryStore store = new InMemoryChatMemoryStore();
+
+    @Override
+    public ChatMemoryProvider get() {
+        return new ChatMemoryProvider() {
+
+            @Override
+            public ChatMemory get(Object memoryId) {
+                return MessageWindowChatMemory.builder()
+                        .maxMessages(20)
+                        .id(memoryId)
+                        .chatMemoryStore(store)
+                        .build();
+            }
+        };
+    }
+}
+```
+
+```
+@RegisterAiService(
+    chatMemoryProviderSupplier = MySmallMemoryProvider.class)
+```
+Para LLMs que não dependem de memória, você não precisa configurar a memória.
+
+Em casos que envolvem multiplos uusários, tenha certeza de que cada usuário tem um memory ID único e passe o ID para o método IA.
+```
+String chat(@MemoryId int memoryId, @UserMessage String userMessage);
+```
