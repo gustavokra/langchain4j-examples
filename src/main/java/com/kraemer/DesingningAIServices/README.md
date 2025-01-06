@@ -174,7 +174,7 @@ public class CustomChatMemoryProvider implements ChatMemoryProvider {
 }
 ```
 
-Se por algum motivo diferentes IA Services precisam de um ChatMemoryProvider diferente, isso é possível configurando o atributo chatMemoryProviderSupplier da anotação @RegisterAiService e implementando como um custom provider.
+Se por algum motivo IA Services precisam de um ChatMemoryProvider diferente, isso é possível configurando o atributo chatMemoryProviderSupplier da anotação @RegisterAiService e implementando um custom provider.
 Exemplo:
 
 ```
@@ -212,7 +212,7 @@ public class CustomProvider implements Supplier<ChatMemoryProvider> {
 @RegisterAiService(
     chatMemoryProviderSupplier = MySmallMemoryProvider.class)
 ```
-Para LLMs que não dependem de memória, você não precisa configurar a memória.
+Para LLMs que não dependem de memória, você não precisa configurar.
 
 Em casos que envolvem multiplos uusários, tenha certeza de que cada usuário tem um memory ID único e passe o ID para o método IA.
 ```
