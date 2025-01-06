@@ -9,8 +9,8 @@ Cada pasta contém um documendo README que explica um tópico, baseado na docume
 Comece por 
 1. "MyAiService"
 2. "Designing AI Services"
-3. "Agents and Tools"
-4. "Embeddings and Document Retrivers"
+3. "Agents and Tools" - pendente
+4. "Embeddings and Document Retrivers" - pendente
 
 ## LangChain4j
 É uma biblioteca cujo objetivo é simplificar a integração de LLMs em aplicativos Java.
